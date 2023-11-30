@@ -1,0 +1,5 @@
+.*.sw[po]
+**/*.rs.bk
+.vscode/
+target/
+Cargo.toml

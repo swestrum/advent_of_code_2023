@@ -2,3 +2,5 @@
 **/*.rs.bk
 .vscode/
 target/
+template/
+new_day.sh

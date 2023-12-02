@@ -38,7 +38,6 @@ fn part_two(input: String) {
     for (key, value) in text_numbers {
         input_cleaned = input_cleaned.replace(key, value)
     }
-    // dbg!(input_cleaned);
     part_one(input_cleaned.clone(), false);
 }
 

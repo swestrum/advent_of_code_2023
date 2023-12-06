@@ -74,7 +74,7 @@ fn help() {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let day: usize = 1;
+    let day: usize = 4;
     let christmas_emoji: String = "\u{1F384}".to_string();
     let input_str: String = include_str!("../data/input.txt").to_string();
     match args.len() {

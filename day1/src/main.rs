@@ -1,9 +1,18 @@
+use clap::Parser;
 use colored::*;
 use std::collections::HashMap;
-use std::env;
+
+#[derive(Parser, Default, Debug)]
+struct Args {
+    #[arg(short, long)]
+    test: bool,
+
+    #[arg(short, long, default_value_t = 0)]
+    part: u8,
+}
 
 fn part_one(input: String, quiet: bool) {
-    if quiet {
+    if !quiet {
         println!("{}\n", "PART ONE".blue());
     }
     let lines: Vec<&str> = input.split("\n").collect::<Vec<&str>>();
@@ -19,7 +28,7 @@ fn part_one(input: String, quiet: bool) {
         let line_total: usize = (numbers.first().unwrap() * 10 as usize) + numbers.last().unwrap();
         total += line_total;
     }
-    println!("ANSWER: {}", total);
+    println!("ANSWER: {}\n", total);
 }
 
 fn part_two(input: String) {
@@ -38,50 +47,30 @@ fn part_two(input: String) {
     for (key, value) in text_numbers {
         input_cleaned = input_cleaned.replace(key, value)
     }
-    part_one(input_cleaned.clone(), false);
-}
-
-fn help() {
-    println!("{}\n", "Please pass in either 1 or 2".yellow().bold())
+    part_one(input_cleaned.clone(), true);
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args = Args::parse();
     let day: usize = 1;
     let christmas_emoji: String = "\u{1F384}".to_string();
-    let input_str: String = include_str!("../data/input.txt").to_string();
-    match args.len() {
+    let input_str: String;
+    if args.test {
+        input_str = include_str!("../data/test_input.txt").to_string();
+    } else {
+        input_str = include_str!("../data/input.txt").to_string();
+    }
+    println!("\n{} {} {}\n", "DAY".green(), day.to_string().green(), christmas_emoji.repeat(day));
+    match args.part {
         1 => {
-            println!("\n{} {} {}\n", "DAY".green(), day.to_string().green(), christmas_emoji.repeat(day));
-            part_one(input_str.clone(), true);
-            part_two(input_str.clone());
+            part_one(input_str.clone(), false);
         }
         2 => {
-            println!("\n{} {} {}\n", "DAY".green(), day.to_string().green(), christmas_emoji.repeat(day));
-            let num = &args[1];
-            let number: i32 = match num.parse() {
-                Ok(n) => n,
-                Err(_) => {
-                    eprintln!("error: second argument not an integer");
-                    help();
-                    return;
-                }
-            };
-            match number {
-                1 => {
-                    part_one(input_str.clone(), true);
-                }
-                2 => {
-                    part_two(input_str.clone());
-                }
-                _ => {
-                    eprintln!("error: second argument not a valid part");
-                    help();
-                }
-            }
+            part_two(input_str.clone());
         }
         _ => {
-            help();
+            part_one(input_str.clone(), false);
+            part_two(input_str.clone());
         }
     }
 }

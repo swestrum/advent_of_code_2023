@@ -241,7 +241,8 @@ fn part_two(input: String) {
     let dim_y: usize = trail_map.len();
     let graph: HashMap<(usize, usize), Vec<(usize, usize)>> = build_graph(trail_map.clone(), x, y);
     let (_, visited) = traverse_loop(graph, x, y);
-    dbg!(find_loops(trail_map.clone(), visited, dim_x, dim_y));
+    let inner_loop_size: usize = find_loops(trail_map.clone(), visited, dim_x, dim_y);
+    println!("ANSWER: {}\n", inner_loop_size);
 }
 
 fn main() {

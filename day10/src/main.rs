@@ -1,6 +1,6 @@
 use clap::Parser;
 use colored::*;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 #[derive(Parser, Default, Debug)]
 struct Args {

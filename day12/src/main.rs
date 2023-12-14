@@ -52,9 +52,11 @@ fn count_permutations(
     mut record: Vec<usize>,
     mut saved_results: HashMap<(Vec<String>, Vec<usize>), usize>,
 ) -> (usize, HashMap<(Vec<String>, Vec<usize>), usize>) {
+    // The case where we found a result from the saved ones
     if saved_results.contains_key(&(arrangement.clone(), record.clone())) {
         return (*saved_results.get(&(arrangement.clone(), record.clone())).unwrap(), saved_results);
     }
+    // When there are no more potential records, attempt to replace everything with empties
     if record.len() == 0 {
         for a in arrangement.iter() {
             if !a.replace("?", "").is_empty() {
@@ -63,14 +65,19 @@ fn count_permutations(
         }
         return (1, saved_results);
     }
+    // If there are still records, but no more arrangements, this is impossible
     if arrangement.len() == 0 {
         return (0, saved_results);
     }
+    // Start checking the first block of arrangements
     let first_arrangement = arrangement[0].clone();
+    // If it's empty, go ahead and recurse while removing the empty result
     if first_arrangement.is_empty() {
         arrangement.remove(0);
         return count_permutations(arrangement, record, saved_results);
     }
+    // If it starts with something, determine if it's even possible to split it with the current record
+    // eat the number of characters in the first arrangement the record indicates, plus
     if first_arrangement.starts_with("#") {
         if match_occurrences(&first_arrangement, record[0]) {
             let num_remove = min(record[0] + 1, arrangement[0].len());

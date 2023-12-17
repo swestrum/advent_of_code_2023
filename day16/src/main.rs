@@ -112,6 +112,7 @@ fn get_num_visited(visited: HashSet<((usize, usize), (isize, isize))>) -> usize 
     for (node, _) in visited.into_iter() {
         visited_nodes.insert(node);
     }
+    dbg!(visited_nodes.len());
     return visited_nodes.len();
 }
 
@@ -130,30 +131,30 @@ fn part_two(input: String) {
     let (map, max) = parse_input(input);
     for i in 1..max + 1 {
         println!("Checking {}", i);
-        visited = trace_light(&map, (1, i), (1, 0), max, HashSet::new());
+        // visited = trace_light(&map, (1, i), (1, 0), max, HashSet::new());
+        // num_visited = get_num_visited(visited);
+        // if num_visited > max_tiles {
+        //     max_tiles = num_visited;
+        // }
+        // println!("Checked right");
+        visited = trace_light(&map, (max, i), (-1, 0), max, HashSet::new());
         num_visited = get_num_visited(visited);
         if num_visited > max_tiles {
             max_tiles = num_visited;
         }
-        println!("Checked right");
-        visited = trace_light(&map, (max_tiles, i), (-1, 0), max, HashSet::new());
+        // println!("Checked left");
+        // visited = trace_light(&map, (i, 1), (0, 1), max, HashSet::new());
+        // num_visited = get_num_visited(visited);
+        // if num_visited > max_tiles {
+        //     max_tiles = num_visited;
+        // }
+        // println!("Checked down");
+        visited = trace_light(&map, (i, max), (0, -1), max, HashSet::new());
         num_visited = get_num_visited(visited);
         if num_visited > max_tiles {
             max_tiles = num_visited;
         }
-        println!("Checked left");
-        visited = trace_light(&map, (i, 1), (0, 1), max, HashSet::new());
-        num_visited = get_num_visited(visited);
-        if num_visited > max_tiles {
-            max_tiles = num_visited;
-        }
-        println!("Checked down");
-        visited = trace_light(&map, (i, max_tiles), (0, -1), max, HashSet::new());
-        num_visited = get_num_visited(visited);
-        if num_visited > max_tiles {
-            max_tiles = num_visited;
-        }
-        println!("Checked up");
+        // println!("Checked up");
     }
     println!("ANSWER: {}\n", max_tiles);
 }
